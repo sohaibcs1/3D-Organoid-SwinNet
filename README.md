@@ -8,8 +8,8 @@
 <div align="center">
   
   <a href="https://">![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)</a>
-  <a href="https://colab.research.google.com/drive/1IqdpUPM_CoKYj6EHNb-IYaCiHvEiM08D">![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)</a>
-  <a href="[https://colab.research.google.com/drive/1_kk_t38QRfzP0bbdXeGgJQvVCPRIowXo](https://www.dropbox.com/scl/fi/sbewadh8971ez76eu79p4/best_metric_model.pth?rlkey=so4dxnf3qbnt3fuywlqzw6yej&st=d2fhvrre&dl=0)">![Open In Dropbox]</a>
+  [Download Pretrained model](https://www.dropbox.com/scl/fi/sbewadh8971ez76eu79p4/best_metric_model.pth?rlkey=so4dxnf3qbnt3fuywlqzw6yej&st=d2fhvrre&dl=1)
+
 
 </div>
 
