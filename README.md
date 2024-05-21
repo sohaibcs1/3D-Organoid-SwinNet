@@ -8,11 +8,6 @@ The proposed framework includes a Swin Transformer block, 3D convolutional block
 
 ![Architecture](https://github.com/sohaibcs1/3D-Organoid-SwinNet/blob/main/images/architecture.JPG)
 
-## Structure  
-|-- 3D-Organoid-SwinNet  
-|&nbsp;--- images  
-|&nbsp;--- masks  
-|&nbsp;--dataset.json  
 # Project Tree Structure
 
 - 3D-Organoid-SwinNet  
