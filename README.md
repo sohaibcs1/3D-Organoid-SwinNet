@@ -6,6 +6,8 @@ The data includes organoid cultures fixed on various days and encompasses a broa
 
 The proposed framework includes a Swin Transformer block, 3D convolutional blocks, and Multilayer Perceptron (MLP) blocks. The Swin Transformer block generates features at four different resolution scales. After extracting global features with the Swin Transformer block, the architecture employs five 3D convolutional blocks for local feature extraction. Then, MLP blocks are used to reconstruct the output shape. Finally, an additional 3D convolutional layer with a 1×1 kernel size acts as the model's terminal layer.
 
+![Architecture](https://github.com/sohaibcs1/3D-Organoid-SwinNet/blob/main/images/architecture.JPG)
+
 ## Structure  
 |-- data  
 |&nbsp;--- images  
@@ -36,3 +38,5 @@ Ensure that you have a suitable Python environment set up and configured before 
 
 ## Results
 The figure compares the results obtained from our approach with those from other techniques, demonstrating that our model, 3D-Organoid-SwinNet, outperforms the alternatives.
+
+![Result](https://github.com/sohaibcs1/3D-Organoid-SwinNet/blob/main/images/results.JPG)
