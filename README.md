@@ -9,22 +9,26 @@ The proposed framework includes a Swin Transformer block, 3D convolutional block
 ![Architecture](https://github.com/sohaibcs1/3D-Organoid-SwinNet/blob/main/images/architecture.JPG)
 
 ## Structure  
-|-- data  
+|-- 3D-Organoid-SwinNet  
 |&nbsp;--- images  
 |&nbsp;--- masks  
 |&nbsp;--dataset.json  
 # Project Tree Structure
 
-- Root
-  - Folder1
-    - Subfolder1
-      - File1.1
-    - Subfolder2
-      - File2.1
-      - File2.2
-  - Folder2
+- 3D-Organoid-SwinNet  
+  - data 
+    - images
+    - masks
+    - dataset.json 
+  - images
     - File1
-  - FileRoot
+  - model
+  - saved_model
+  - train
+  - utills
+  - README.md
+  - requirements.txt
+  - train_model.py
 
 ## Running the Model
 To run the model, follow these steps:
@@ -38,7 +42,7 @@ To run the model, follow these steps:
     This command will install all the necessary Python packages listed in the `requirements.txt` file.
 
 
-2. **Execute the Training Script**: Run the training script `train_GAN.py` to start the training process for the Generative Adversarial Network (GAN) model:
+2. **Execute the Training Script**: Run the training script `train_model.py` to start the training process for model.
 
     ```
     python train_model.py
