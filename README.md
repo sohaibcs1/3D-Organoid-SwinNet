@@ -12,7 +12,7 @@ The proposed framework includes a Swin Transformer block, 3D convolutional block
 |-- data  
 |&nbsp;--- images  
 |&nbsp;--- masks  
-&nbsp;-dataset.json  
+|&nbsp;--dataset.json  
 
 ## Running the Model
 To run the model, follow these steps:
