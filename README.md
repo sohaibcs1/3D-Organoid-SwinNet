@@ -16,7 +16,6 @@ The proposed framework includes a Swin Transformer block, 3D convolutional block
     - masks
     - dataset.json 
   - images
-    - File1
   - model
   - saved_model
   - train
