@@ -13,6 +13,18 @@ The proposed framework includes a Swin Transformer block, 3D convolutional block
 |&nbsp;--- images  
 |&nbsp;--- masks  
 |&nbsp;--dataset.json  
+# Project Tree Structure
+
+- Root
+  - Folder1
+    - Subfolder1
+      - File1.1
+    - Subfolder2
+      - File2.1
+      - File2.2
+  - Folder2
+    - File1
+  - FileRoot
 
 ## Running the Model
 To run the model, follow these steps:
