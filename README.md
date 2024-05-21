@@ -1,1 +1,8 @@
-# 3D-Organoid-SwinNet-
+# Dataset
+
+# Model Architecture
+
+# Structure  
+
+# Running the Model
+
