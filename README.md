@@ -2,7 +2,7 @@
 
   <h1>3D-Organoid-SwinNet</h1>
   <p>This repository contains the code for 3D-Organoid-SwinNet model for Segmentation of 3D organoids. In this readme, you will find a description of 3D_Organoid_SwinNet.</p>
-  
+
 📘 **Paper Link**: [Access the Paper on OpenReview](https://openreview.net/forum?id=o0sRT1GWg0#discussion)
 
 </div>
@@ -102,5 +102,5 @@ Before training, configure the hyperparameters in the `config.py` file:
 
 If this repository contributes to your research, we kindly request that you cite our paper.
 
-[1] Sohaib M, Shabani S, Mohammed SA, Winkelmaier G, Cheng Q, Parvin B. 3D_Organoid_SwinNet: High-content profiling of 3D organoids through Transformer-Based Architecture. InIEEE-EMBS International Conference on Biomedical and Health Informatics.
+[1] Sohaib M, Shabani S, Mohammed SA, Winkelmaier G, Cheng Q, Parvin B. 3D_Organoid_SwinNet: High-content profiling of 3D organoids through Transformer-Based Architecture. In IEEE-EMBS International Conference on Biomedical and Health Informatics.
 
