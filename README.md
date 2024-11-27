@@ -5,15 +5,11 @@
 
 </div>
 
-<div align="center">
-  
-  <a href="https://">![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)</a> <br>
-  [preprint OpenReview](https://openreview.net/forum?id=o0sRT1GWg0#discussion)
-
-
-</div>
-
 <hr/>
+
+| MCF10A Day 2 | MCF10A Day 5 | MCF10A Day 7 |
+|-------|-------|-------|
+| <div align="center">[![MCF10A Day 2](gif/10a_day2_c.gif)](gif/10a_day2_c.gif)</div> | <div align="center">[![MCF10A Day 5](gif/10a_day5_c.gif)](gif/10a_day5_c.gif)</div> | <div align="center">[![MCF10A Day 7](gif/10a_day7.gif)](gif/10a_day7.gif)</div> |
 
 ## Dataset
 
