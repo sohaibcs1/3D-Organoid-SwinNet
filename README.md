@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h1>3D-Organoid-SwinNet.</h1>
+  <h1>3D-Organoid-SwinNet</h1>
   <p>This repository contains the code for 3D-Organoid-SwinNet model for Segmentation of 3D organoids. In this readme, you will find a description of 3D-Organoid-SwinNet.</p>
 
 </div>
@@ -8,7 +8,7 @@
 <div align="center">
   
   <a href="https://">![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)</a> <br>
-  [Download Pretrained model](https://www.dropbox.com/scl/fi/sbewadh8971ez76eu79p4/best_metric_model.pth?rlkey=so4dxnf3qbnt3fuywlqzw6yej&st=d2fhvrre&dl=1)
+  [preprint OpenReview](https://openreview.net/forum?id=o0sRT1GWg0#discussion)
 
 
 </div>
