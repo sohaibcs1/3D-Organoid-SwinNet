@@ -5,13 +5,6 @@
 
 </div>
 
-<div align="center">
-    [preprint OpenReview](https://openreview.net/forum?id=o0sRT1GWg0#discussion)
-
-
-
-
-</div>
 <hr/>
 
 | MCF10A Day 2 | MCF10A Day 5 | MCF10A Day 7 |
