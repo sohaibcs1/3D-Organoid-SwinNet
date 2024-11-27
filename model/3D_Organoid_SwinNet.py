@@ -94,6 +94,79 @@ class PatchMerging(PatchMergingV2):
         x = self.reduction(x)
         return x
 
+class SegformerDecodeHead(nn.Module):
+    def __init__(self,
+                 hidden_sizes=[4*48 ,48,96 ,192 ,384 ],
+                 num_encoder_blocks = 5,
+                 target_size = [96,96, 96],
+                 decoder_hidden_size = 384,
+                 dropout_prob = 0.5,
+                 num_labels= 14
+                 ):
+        super(SegformerDecodeHead, self).__init__()
+        # linear layers which will unify the channel dimension of each of the encoder blocks to the same config.decoder_hidden_size
+        mlps = []
+        for i in range(num_encoder_blocks):
+            # print("i:", i)
+            # print("input dim: ",config.hidden_sizes[i] )
+            mlp = SegformerMLP(decoder_hidden_size, input_dim = hidden_sizes[i])
+            mlps.append(mlp)
+        self.linear_c = nn.ModuleList(mlps)
+
+        # the following 3 layers implement the ConvModule of the original implementation
+        self.linear_fuse = nn.Conv3d(
+            in_channels=decoder_hidden_size * num_encoder_blocks,
+            out_channels=decoder_hidden_size,
+            kernel_size=1,
+            bias=False,
+        )
+        self.batch_norm = nn.BatchNorm3d(decoder_hidden_size)
+        self.activation = nn.ReLU()
+
+        self.dropout = nn.Dropout(dropout_prob)
+        self.classifier = nn.Conv3d(decoder_hidden_size, num_labels, kernel_size=1)
+
+        # self.config = config
+        self.target_size = target_size
+    def forward(self, encoder_hidden_states: torch.FloatTensor) -> torch.Tensor:
+        batch_size = encoder_hidden_states[-1].shape[0]
+
+        all_hidden_states = ()
+        for encoder_hidden_state, mlp in zip(encoder_hidden_states, self.linear_c):
+            # if self.config.reshape_last_stage is False and encoder_hidden_state.ndim == 3:
+            #     height = width = int(math.sqrt(encoder_hidden_state.shape[-1]))
+            #     encoder_hidden_state = (
+            #         encoder_hidden_state.reshape(batch_size, height, width, -1).permute(0, 3, 1, 2).contiguous()
+            #     )
+
+            # unify channel dimension
+            height, width, depth = encoder_hidden_state.shape[2], encoder_hidden_state.shape[3], encoder_hidden_state.shape[4]
+            # print("input shape mlp", encoder_hidden_state.shape)
+            encoder_hidden_state = mlp(encoder_hidden_state)
+            # print("output shape mlp", encoder_hidden_state.shape)
+            encoder_hidden_state = encoder_hidden_state.permute(0, 2, 1)
+            encoder_hidden_state = encoder_hidden_state.reshape(batch_size, -1, height, width, depth)
+            # print("shape after reshaping", encoder_hidden_state.shape)
+            # upsample we should map the data to 96 instead of 56
+            # print("target shape: ", encoder_hidden_states[0].size()[2:])
+            encoder_hidden_state = nn.functional.interpolate(
+                encoder_hidden_state, size= self.target_size, mode="trilinear", align_corners=False
+            )
+            # print("shape after interpolation", encoder_hidden_state.shape)
+
+            all_hidden_states += (encoder_hidden_state,)
+        # print("all_hidden_states----:", all_hidden_states[0].shape, all_hidden_states[1].shape, all_hidden_states[2].shape, all_hidden_states[3].shape)
+        # print("torch.cat(all_hidden_states[::-1], dim=1)", torch.cat(all_hidden_states[::-1], dim=1).shape)
+        hidden_states = self.linear_fuse(torch.cat(all_hidden_states[::-1], dim=1))
+        # print("shape after concate:",hidden_states.shape )
+        hidden_states = self.batch_norm(hidden_states)
+        hidden_states = self.activation(hidden_states)
+        hidden_states = self.dropout(hidden_states)
+        # logits are of shape (batch_size, num_labels, height/4, width/4)
+        logits = self.classifier(hidden_states)
+        # print("shape logits:",logits.shape )
+        return logits
+
 
 MERGING_MODE = {"merging": PatchMerging, "mergingv2": PatchMergingV2}
 
@@ -115,7 +188,7 @@ __all__ = [
 ]
 
 
-class MAT3D(nn.Module):
+class 3D_Organoid_SwinNet(nn.Module):
 
     patch_size: Final[int] = 2
 
@@ -171,7 +244,7 @@ class MAT3D(nn.Module):
 
         self.normalize = normalize
 
-        self.swinViT_1 = SwinTransformer(
+        self.swinViT = SwinTransformer(
             in_chans=in_channels,
             embed_dim=feature_size,
             window_size=window_size,
@@ -189,65 +262,11 @@ class MAT3D(nn.Module):
             downsample=look_up_option(downsample, MERGING_MODE) if isinstance(downsample, str) else downsample,
             use_v2=use_v2,
         )
-        self.swinViT_2 = SwinTransformer(
-            in_chans=in_channels,
-            embed_dim=feature_size,
-            window_size=window_size,
-            patch_size=patch_sizes,
-            depths=depths,
-            num_heads=num_heads,
-            mlp_ratio=4.0,
-            qkv_bias=True,
-            drop_rate=drop_rate,
-            attn_drop_rate=attn_drop_rate,
-            drop_path_rate=dropout_path_rate,
-            norm_layer=nn.LayerNorm,
-            use_checkpoint=use_checkpoint,
-            spatial_dims=spatial_dims,
-            downsample=look_up_option(downsample, MERGING_MODE) if isinstance(downsample, str) else downsample,
-            use_v2=use_v2,
-        )
-        self.swinViT_3 = SwinTransformer(
-            in_chans=in_channels,
-            embed_dim=feature_size,
-            window_size=window_size,
-            patch_size=patch_sizes,
-            depths=depths,
-            num_heads=num_heads,
-            mlp_ratio=4.0,
-            qkv_bias=True,
-            drop_rate=drop_rate,
-            attn_drop_rate=attn_drop_rate,
-            drop_path_rate=dropout_path_rate,
-            norm_layer=nn.LayerNorm,
-            use_checkpoint=use_checkpoint,
-            spatial_dims=spatial_dims,
-            downsample=look_up_option(downsample, MERGING_MODE) if isinstance(downsample, str) else downsample,
-            use_v2=use_v2,
-        )
-        self.swinViT_4 = SwinTransformer(
-            in_chans=in_channels,
-            embed_dim=feature_size,
-            window_size=window_size,
-            patch_size=patch_sizes,
-            depths=depths,
-            num_heads=num_heads,
-            mlp_ratio=4.0,
-            qkv_bias=True,
-            drop_rate=drop_rate,
-            attn_drop_rate=attn_drop_rate,
-            drop_path_rate=dropout_path_rate,
-            norm_layer=nn.LayerNorm,
-            use_checkpoint=use_checkpoint,
-            spatial_dims=spatial_dims,
-            downsample=look_up_option(downsample, MERGING_MODE) if isinstance(downsample, str) else downsample,
-            use_v2=use_v2,
-        )
-
-
+        
+        
         self.encoder1 = UnetrBasicBlock(
             spatial_dims=spatial_dims,
-            in_channels=in_channels,
+            in_channels=feature_size,
             out_channels=feature_size,
             kernel_size=3,
             stride=1,
@@ -257,7 +276,7 @@ class MAT3D(nn.Module):
 
         self.encoder2 = UnetrBasicBlock(
             spatial_dims=spatial_dims,
-            in_channels=feature_size,
+            in_channels=2 * feature_size,
             out_channels=2 * feature_size,
             kernel_size=3,
             stride=1,
@@ -267,70 +286,23 @@ class MAT3D(nn.Module):
 
         self.encoder3 = UnetrBasicBlock(
             spatial_dims=spatial_dims,
-            in_channels=144,
-            out_channels= 4 * feature_size,
+            in_channels=4 * feature_size,
+            out_channels=4 * feature_size,
             kernel_size=3,
             stride=1,
             norm_name=norm_name,
             res_block=True,
         )
-
         self.encoder4 = UnetrBasicBlock(
             spatial_dims=spatial_dims,
-            in_channels=336,
-            out_channels=8 * feature_size,
+            in_channels=8* feature_size,
+            out_channels=8* feature_size,
             kernel_size=3,
             stride=1,
             norm_name=norm_name,
             res_block=True,
         )
-
-        self.decoder4 = UnetrUpBlock(
-            spatial_dims=spatial_dims,
-            in_channels=feature_size * 16,
-            out_channels=feature_size * 8,
-            kernel_size=3,
-            upsample_kernel_size=2,
-            norm_name=norm_name,
-            res_block=True,
-        )
-
-        self.decoder3 = UnetrUpBlock(
-            spatial_dims=spatial_dims,
-            in_channels=feature_size * 8,
-            out_channels=feature_size * 4,
-            kernel_size=3,
-            upsample_kernel_size=2,
-            norm_name=norm_name,
-            res_block=True,
-        )
-        self.decoder2 = UnetrUpBlock(
-            spatial_dims=spatial_dims,
-            in_channels= 4 * feature_size,
-            out_channels=2 * feature_size,
-            kernel_size=3,
-            upsample_kernel_size=2,
-            norm_name=norm_name,
-            res_block=True,
-        )
-
-        self.decoder1 = UnetrUpBlock(
-            spatial_dims=spatial_dims,
-            in_channels=feature_size * 2,
-            out_channels=feature_size,
-            kernel_size=3,
-            upsample_kernel_size=2,
-            norm_name=norm_name,
-            res_block=True,
-        )
-
-        self.out = UnetOutBlock(spatial_dims=spatial_dims, in_channels=feature_size, out_channels=out_channels)
-        self.Conv3D_1D = nn.Conv3d(in_channels=720, out_channels=768, kernel_size=1, stride=1, padding=0)
-        self.fusion1 = BiFusion_block_3d(ch_1=48, ch_2=48, r_2=2, ch_int=48, ch_out=48, drop_rate=0.2)
-        self.fusion2 = BiFusion_block_3d(ch_1=96, ch_2=48, r_2=2, ch_int=48, ch_out=96, drop_rate=0.2)
-        self.fusion3 = BiFusion_block_3d(ch_1=192, ch_2=144, r_2=2, ch_int=144, ch_out=192, drop_rate=0.2)
-        self.fusion4 = BiFusion_block_3d(ch_1=384, ch_2=336, r_2=2, ch_int=336, ch_out=384, drop_rate=0.2)
-        self.fusion5 = BiFusion_block_3d(ch_1=768, ch_2=720, r_2=2, ch_int=720, ch_out=768, drop_rate=0.2)
+        self.SegformerDecodeHead = SegformerDecodeHead()
 
 
     @torch.jit.unused

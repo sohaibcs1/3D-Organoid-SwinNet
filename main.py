@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 from monai.losses import DiceCELoss
 from train.utils import train
-from model.MAT3D import MAT3D
+from model.3D_Organoid_SwinNet import 3D_Organoid_SwinNet
 from loader.loader import data_loaders
 
 def main():
@@ -18,7 +18,7 @@ def main():
     val_loader, train_loader = data_loaders(config["data_dir"], num_samples=config["num_samples"], device=device)
 
     # define the model
-    model = MAT3D(
+    model = 3D_Organoid_SwinNet(
         img_size=(config["input_size"], config["input_size"], config["input_size"]),
         in_channels=config["input_channels"],
         out_channels=config["num_classes"],
