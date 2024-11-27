@@ -2,6 +2,8 @@
 
   <h1>3D-Organoid-SwinNet</h1>
   <p>This repository contains the code for 3D-Organoid-SwinNet model for Segmentation of 3D organoids. In this readme, you will find a description of 3D_Organoid_SwinNet.</p>
+  
+📘 **Paper Link**: [Access the Paper on OpenReview](https://openreview.net/forum?id=o0sRT1GWg0#discussion)
 
 </div>
 
