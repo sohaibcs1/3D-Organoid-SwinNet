@@ -7,8 +7,12 @@
 
 <div align="center">
   
-  <a href="https://">![OpenReview](https://raw.githubusercontent.com/sohaibcs1/3D-Organoid-SwinNet/refs/heads/main/diagram/openreview.png)</a> <br>
-  [preprint OpenReview](https://openreview.net/forum?id=o0sRT1GWg0#discussion)
+  <a href="https://openreview.net/forum?id=o0sRT1GWg0#discussion">
+  <img src="https://raw.githubusercontent.com/sohaibcs1/3D-Organoid-SwinNet/refs/heads/main/diagram/openreview.png" alt="OpenReview" width="200">
+</a>  
+<br>
+[preprint OpenReview](https://openreview.net/forum?id=o0sRT1GWg0#discussion)
+
 
 
 </div>
