@@ -44,7 +44,6 @@ The proposed framework includes a Swin Transformer block, 3D convolutional block
 To run the model, follow these steps:
 
 1. **Install Dependencies**: Ensure you have all the required dependencies installed. Navigate to the root directory of the project in your terminal and execute the following command:
-
     ```
     pip install -r requirements.txt
     ```
