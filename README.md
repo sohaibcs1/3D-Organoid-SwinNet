@@ -101,5 +101,5 @@ Before training, configure the hyperparameters in the `config.py` file:
 
 If this repository contributes to your research, we kindly request that you cite our paper.
 
-[1] M. Sohaib, S. Shabani, S. A. Mohammed and B. Parvin, "3D-Organoid-SwinNet: High-content profiling of 3D organoids," in IEEE Journal of Biomedical and Health Informatics, doi: 10.1109/JBHI.2024.3511422. 
+M. Sohaib, S. Shabani, S. A. Mohammed and B. Parvin, "3D-Organoid-SwinNet: High-content profiling of 3D organoids," in IEEE Journal of Biomedical and Health Informatics, doi: 10.1109/JBHI.2024.3511422. 
 
