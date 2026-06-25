@@ -17,7 +17,7 @@
 
 The data includes organoid cultures fixed on various days and encompasses a broad mutation landscape of breast cancer cell lines, including MCF10A, MCF7, MDA-MB-231, and MDA-MB-468.
 
-### 🗂️ Folder Structure:
+### Folder Structure:
 Organize your data as follows:
 
 ```
@@ -53,7 +53,7 @@ To run the model, follow these steps:
 
 2.  This repository is built upon the foundational work provided in [Synapse](https://github.com/LeonidAlekseev/Swin-UNETR).
 
-## 🚀 Training
+## Training
 
 Before training, configure the hyperparameters in the `config.py` file:
 
@@ -73,7 +73,7 @@ Before training, configure the hyperparameters in the `config.py` file:
 
 
 
-## 📊 Results
+## Results
 
 ### Quantitative Results (Microscopic data)
 <div align="center">
@@ -85,11 +85,11 @@ Before training, configure the hyperparameters in the `config.py` file:
   <img src="diagram/visual_res.png" alt="Visualization Results" style="width:80%;"/>
 </div>
 
-### 🧬 Morphogenesis Analysis
+### Morphogenesis Analysis
 
 **BioProps** is a Python library designed to compute properties of cell nuclei and colonies from NIfTI files, facilitating the analysis of cellular structures in medical images.
 
-📦 **Available on PyPI**: [BioProps](https://pypi.org/project/BioProps/) [Try: pip install BioProps]
+**Available on PyPI**: [BioProps](https://pypi.org/project/BioProps/) [Try: pip install BioProps]
 
 <div align="center">
   <img src="diagram/visual_res2.png" alt="Visualization Results" style="width:80%;"/>
@@ -97,7 +97,7 @@ Before training, configure the hyperparameters in the `config.py` file:
 </div>
 
 
-## 📣 Citation
+## Citation
 
 If this repository contributes to your research, we kindly request that you cite our paper.
 
